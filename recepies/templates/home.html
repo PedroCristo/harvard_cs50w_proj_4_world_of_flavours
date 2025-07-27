@@ -1,0 +1,38 @@
+<!-- HTML structure for handling the home page and all recipes page -->
+{% extends "layout.html" %}
+
+{% block body %}
+{% if all_recipes_page %}
+<!-- FILTER CATEGORIES HTML -->
+{% include "components/filter-categories.html" %}
+<!-- END OF FILTER CATEGORIES HTML -->
+{% endif %}
+
+{% if home_page %}
+<!-- BANNER CAROUSEL HTML -->
+{% include "components/banner-carousel.html" %}
+<!-- END OF BANNER CAROUSEL HTML -->
+
+<!-- RECIPES CARD HTML -->
+{% include "components/recipes-card.html" %}
+<!-- END OF RECIPES CARD HTML -->
+
+<!-- RECIPES CARD HTML -->
+{% include "components/testimonials.html" %}
+<!-- END OF RECIPES CARD HTML -->
+{% else %}
+
+<div class="mt-5">
+   <!-- RECIPES CARD HTML -->
+   {% include "components/recipes-card.html" %}
+   <!-- END OF RECIPES CARD HTML -->
+</div>
+
+{% if recipes %}
+<!-- PAGE PAGINATION HTML -->
+{% include "components/pagination.html" %}
+<!-- END OF PAGE PAGINATION HTML -->
+ 
+{% endif %}
+{% endif %}
+{% endblock %}

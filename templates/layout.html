@@ -1,0 +1,24 @@
+{% load static %}
+
+<!-- HEAD HTML -->
+{% include "components/header.html" %}
+<!-- END OF HEAD HTML -->
+
+<body>
+    <!-- NAVBAR HTML -->
+    {% include "components/navbar.html" %}
+    <!-- END OF NAVBAR HTML -->
+
+    {% block body %}
+    {% endblock %}
+    
+    <!-- FOOTER HTML -->
+    {% include "components/footer.html" %}
+    <!-- END OF FOOTER HTML -->
+
+    <!-- SCRIPTS HTML -->
+    {% include "components/scripts.html" %}
+    <!-- END OF SCRIPTS HTML -->
+</body>
+
+</html>

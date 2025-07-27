@@ -1,0 +1,51 @@
+<!-- HTML structure for handling the delete comment -->
+{% load widget_tweaks %}
+<!-- Accordion Structure -->
+{% if user.is_superuser or user == comment.user %}
+<div class="accordion accordion-flush container" id="accordionFlushExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button collapsed border-0 mb-3 mt-3 btn" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseOne{{ comment.id }}" aria-expanded="false"
+                aria-controls="flush-collapseOne">
+                <h4 class="interactive-color">...</h4>
+            </button>
+        </h2>
+        <div id="flush-collapseOne{{ comment.id }}" class="accordion-collapse collapse"
+            aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+                <div class="post-admin d-flex">
+                    <a href="{% url 'edit_comment' comment.pk %}" class="btn btn-primary w-40 mr-1">Edit Comment</a>
+                    <button type="button" class="btn btn-danger w-40" data-toggle="modal" data-target="#deleteCommentModal">
+                        Delete Comment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Delete Comment Modal Structure -->
+<div class="modal fade" id="deleteCommentModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title interactive-color" id="exampleModalLongTitle">Delete Comment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="interactive-color"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <strong>{{ user.username }}</strong>, are you sure you wanna delete this comment?
+            </div>
+            <div class="modal-footer">
+                <form method="POST" action="{% url 'delete_comment' comment.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete Comment</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

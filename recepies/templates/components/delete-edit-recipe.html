@@ -1,0 +1,52 @@
+<!-- HTML structure for handling the delete/edit recipe -->
+{% load widget_tweaks %}
+<!-- Accordion Structure -->
+{% if user.is_superuser or user == recipe.author %}
+<div class="accordion accordion-flush container" id="accordionFlushExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button collapsed border-0 mb-3 mt-3 btn" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseOne{{ comment.id }}" aria-expanded="false"
+                aria-controls="flush-collapseOne">
+                <h4 class="interactive-color">...</h4>
+            </button>
+        </h2>
+        <div id="flush-collapseOne{{ recepi.id }}" class="accordion-collapse collapse"
+            aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+                <div class="post-admin d-flex">
+                    <a href="{% url 'edit_recipe' recipe.pk %}" class="btn btn-primary w-25 mr-1">Edit Recipe</a>
+                    <button type="button" class="btn btn-danger w-25" data-toggle="modal"
+                        data-target="#deleteCommentModal{{ recipe.id }}">
+                        Delete Recipe
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Delete Recipe Modal Structure -->
+<div class="modal fade" id="deleteCommentModal{{ recipe.id }}" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title interactive-color" id="exampleModalLongTitle">Delete Recipe</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="interactive-color"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <strong>{{ user.username }}</strong>, are you sure you wanna delete this recipe?
+            </div>
+            <div class="modal-footer">
+                <form method="POST" action="{% url 'delete_recipe' recipe.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete Recepi</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

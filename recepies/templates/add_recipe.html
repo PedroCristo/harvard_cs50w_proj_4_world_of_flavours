@@ -1,0 +1,48 @@
+<!-- HTML structure for handling the add/edit recipe page -->
+{% extends "layout.html" %}
+{% load widget_tweaks %}
+{% block body %}
+<div id="addRecipe" class="container mt-5">
+    <h2 class="title interactive-color mb-5">
+        {% if add_recipe %}
+        Add Recipe
+        {% else %}
+        Edit Recipe
+        {% endif %}
+    </h2>
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% load widget_tweaks %}
+                {{ form.non_field_errors }}
+                <div class="row">
+                    <div class="col-md-8">
+                        {% render_field form.title class="form-control w-100 mb-4" placeholder="Title" attr="required"%}
+                        {% render_field form.sub_title class="form-control w-100 mb-4" placeholder="Sub Title" attr="required" %}
+                        <label for="{{ form.ingredients.id_for_label }}">Ingredients:</label>
+                        {% render_field form.ingredients class="form-control w-100 mb-4" placeholder="Ingredients" attr="required" %}
+                        <label for="{{ form.how_to_prepare.id_for_label }}">How to Prepare:</label>
+                        {% render_field form.how_to_prepare class="form-control w-100 mb-4" placeholder="How to Prepare" attr="required" %}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="{{ form.main_category.id_for_label }}">Main Category:</label>
+                        {% render_field form.main_category class="form-control w-75 mb-4" attr="required" %}
+                        <label for="{{ form.origin_category.id_for_label }}">Origin Category:</label>
+                        {% render_field form.origin_category class="form-control w-75 mb-4" attr="required" %}
+                        <label for="{{ form.difficulty_level.id_for_label }}">Difficulty Level:</label>
+                        {% render_field form.difficulty_level class="form-control w-75 mb-4" attr="required" %}
+                        <label for="{{ form.time_to_prepare.id_for_label }}">Time to Prepare:</label>
+                        {% render_field form.time_to_prepare class="form-control w-75 mb-4" attr="required" placeholder="Time to Prepare (minutes)" %}
+                        <label for="{{ form.small_image.id_for_label }}">Small Image: 500 x 400 px</label>
+                        {% render_field form.small_image class="form-control w-75 mb-4" %}
+                        <label for="{{ form.large_image.id_for_label }}">Large Image: 1000 x 675 px</label>
+                        {% render_field form.large_image class="form-control w-75 mb-4" attr="required" %}
+                    </div>
+                </div>
+                <button class="btn btn-primary w-25" type="submit">{% if add_recipe %}Add Recipe{% else %}Edit Recipe{% endif %}</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

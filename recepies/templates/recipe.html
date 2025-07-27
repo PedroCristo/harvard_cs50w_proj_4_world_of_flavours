@@ -1,0 +1,97 @@
+<!-- HTML structure for handling the recipe page -->
+{% extends "layout.html" %}
+{% block body %}
+<div id="recipe-container" class="container mt-5">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="card">
+                <div class="image-container">
+                    <div class="overlay"></div>
+                    {% if recipe.small_image and recipe.small_image.url %}
+                    <img class="img-fluid w-100" src="{{ recipe.large_image.url }}" alt="{{ recipe.title }}">
+                    {% else %}
+                    <img class="img-fluid w-100" src="../../media/images/large/support/Image_not_available_large.png"
+                        alt="{{ recipe.title }}">
+                    {% endif %}
+                    <div class="card-info">
+                        <div class="d-flex">
+                            <i class="interactive-color fa-solid fa-earth-americas mt-1"></i>
+                            <p class="ml-2">{{ recipe.origin_category }}</p>
+                        </div>
+                        <div class="d-flex">
+                            <i class="interactive-color fa-solid fa-paper-plane mt-1"></i>
+                            <p class="ml-2">{{ recipe.difficulty_level }}</p>
+                        </div>
+                        <div class="d-flex">
+                            <i class="interactive-color fa-solid fa-bowl-rice mt-1"></i>
+                            <p class="ml-2">{{ recipe.main_category }}</p>
+                        </div>
+                        <div class="d-flex">
+                            <i class="interactive-color fa-solid fa-clock-rotate-left mt-1"></i>
+                            <p class="ml-2">{{ recipe.time_to_prepare }} Minutes</p>
+                        </div>
+                        <div class="d-flex">
+                            <i class="interactive-color fa-solid fa-heart mt-1"></i>
+                            <p class="ml-2 like-count" id="{{ recipe.id }}">{{ recipe.likes.count }}</p>
+                        </div>
+                        <div class="d-flex pb-2">
+                            <i class="mt-1 fa-regular fa-face-smile interactive-color"></i>
+                            <p class="ml-2 mr-1">{{ average_rating|floatformat:2|default:"No ratings yet" }}</p>
+                            {% if average_rating %}
+                            {% for star in "12345" %}
+                            {% if star|add:0 <= average_rating %} <i class="fa-solid fa-star interactive-color"></i>
+                                {% elif star|add:0 <= average_rating|add:0.5 %} <i
+                                    class="fa-solid fa-star-half-stroke interactive-color"></i>
+                                    {% else %}
+                                    <i class="fa-regular fa-star"></i>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3">
+                    <h3 class="interactive-color Kaushan-title mb-3">{{ recipe.title }}</h3>
+                    <hr class="under-line">
+                    <p> {{ recipe.sub_title }}</p>
+                    <h3 class="interactive-color">Ingredients</h3>
+                    <p> {{ recipe.ingredients | safe }}</p>
+                    <h3 class="interactive-color">How to Prepare</h3>
+                    <p> {{ recipe.how_to_prepare | safe }}</p>
+                    <hr>
+                    <div class="card-info-details d-flex flex-column">
+                        <div class="d-flex">
+                            <i class="interactive-color fa-solid fa-user-pen mt-1"></i>
+                            <a class="ml-2 mb-3" href="{% url 'public_profile' recipe.author.username %}">
+                                {{ recipe.author }}</a>
+                        </div>
+                        <div class="d-flex">
+                            <i class="interactive-color fas fa-clock mt-1"></i>
+                            <p class="ml-2">{{ recipe.timestamp | timesince }}</p>
+                        </div>
+                        <div class="d-flex">
+                            <i class="interactive-color fa-regular fa-heart ml-1 mt-1"></i></i>
+                            <p class="ml-2 like-count" id="{{ recipe.id }}">{{ recipe.likes.count }}</p>
+                        </div>
+                        <!-- LIKE RECIPE HTML -->
+                        {% include "components/like-recipe.html" %}
+                        <!-- END OF LIKE RECIPE HTML -->
+
+                        <!-- RATE RECIPE HTML -->
+                        {% include "components/rating-recipe.html" %}
+                        <!-- END OF RATE RECIPE HTML -->
+                    </div>
+                </div>
+                <!-- DELELE EDITE HTML -->
+                {% include "components/delete-edit-recipe.html" %}
+                <!-- END OF DELELE EDITE HTML -->
+            </div>
+            <hr class="under-line mt-5">
+        </div>
+    </div>
+</div>
+
+<!-- COMMENTS HTML -->
+{% include "components/comments.html" %}
+<!-- END OF COMMENTS HTML -->
+{% endblock %}

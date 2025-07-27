@@ -1,0 +1,44 @@
+{% load static %}
+
+<!-- HEAD HTML -->
+{% include "components/header.html" %}
+<!-- END OF HEAD HTML -->
+
+{% block content %}
+<!-- LANDING PAGE -->
+ <body>
+    <main id="intro-section">
+       <video class="display-desktop" src="{{ MEDIA_URL }}media/videos/desktop_video_compressed_1920x1080.mp4" muted loop autoplay></video>
+       <video class="display-mobile" src="{{ MEDIA_URL }}media/videos/mobile_video_compressed_960x540.mp4" muted loop autoplay></video>
+       <div class="container">
+          <header>
+             <a href="{% url 'home_page' %}" aria-label="Landing Page"><span class="logo Kaushan-title interactive-color">World of Flavors</span></a>
+          </header>
+          <div class="overlay"></div>
+          <div class="text-box">
+             <h3 class="title">Explore Exciting Recipe Ideas</h3>
+             <p class="paragraph interactive-color">Discover, Share, and Enjoy a Curated Collection of Delicious Recipes</p>
+             <a href="{% url 'home_page' %}" class="btn-intro transition-3" aria-label="Go to the home page">Discover More <i
+                   class="fas fa-arrow-right interactive-color"></i></a>
+          </div>
+          <div class="social">
+             <ul class="d-flex">
+                <li>
+                   <a href="https://www.facebook.com/" rel="noopener" target="_blank"
+                      aria-label="Go to the facebook company page"><i class="fab fa-facebook-f interactive-color transition-3"></i></a>
+                </li>
+                <li>
+                   <a href="https://www.instagram.com/" rel="noopener" target="_blank"
+                      aria-label="Go to the Instagram company page"><i class="fab fa-instagram interactive-color transition-3"></i></a>
+                </li>
+                <li>
+                   <a href="https://ie.pinterest.com/" rel="noopener" target="_blank"
+                      aria-label="Go to the Pinterest company page"><i class="fab fa-pinterest interactive-color transition-3"></i></a>
+                </li>
+             </ul>
+          </div>
+       </div>
+    </main>
+ </body>
+<!-- END OF LANDING PAGE-->
+{% endblock %}

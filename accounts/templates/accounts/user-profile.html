@@ -1,0 +1,75 @@
+<!-- HTML structure for handling the user profile page-->
+{% extends "layout.html" %}
+{% load widget_tweaks %}
+
+{% block body %}
+<div id="profile" class="container mt-5">
+    {% if public_profile == True %}
+    <h2 class="title interactive-color">Public Profile</h2>
+    {% else %}
+    <h2 class="title interactive-color">User Profile</h2>
+    {% endif %}
+    <div class="row mt-5">
+        <div class="col-md-5 profile-card text-center">
+            <div class="mb-3">
+                {% if user_profile.user_image %}
+                <img class="mx-auto w-50 rounded-circle" src="{{ user_profile.user_image.url }}" alt="Profile Image">
+                {% else %}
+                <img class="mx-auto w-50 rounded-circle"
+                    src="../../../media/images/large/support/user-default-image-large-removebg-preview.png"
+                    alt="Default Profile Image">
+                {% endif %}
+            </div>
+            <p><strong>Username:</strong> {{ user_profile.user.username }}</p>
+            {% if user_profile.user_social_media %}
+            <a href="{{ user_profile.user_social_media }}" target="_blank" class="interactive-color transition-3"><i
+                    class="fas fa-at"></i>{{ user_profile.user.username }}</a>
+            {% endif %}
+        </div>
+        <div class="col-md-7 mt-2">
+            <p><strong>Name:</strong> {{ user_profile.user_name }}</p>
+            {% if public_profile == True %}
+            {% else %}
+            <p><strong>Email:</strong> {{ user_profile.user.email }}</p>
+            {% endif %}
+            <p><strong>Location:</strong> {{ user_profile.location }}</p>
+            <p class="paragraph"><strong>Bio:</strong> {{ user_profile.bio }}</p>
+            <p><strong>Member Since:</strong> {{ user_profile.user.date_joined|date:"F d, Y" }}</p>
+            <p><strong>Last Login:</strong> {{ user_profile.user.last_login|date:"F d, Y" }}</p>
+        </div>
+    </div>
+    <hr class="under-line">
+    {% if public_profile == True %}
+    {% else %}
+    <!-- Accordion Structure -->
+    <div class="accordion accordion-flush container" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed border-0 mb-3 mt-3 btn" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false"
+                    aria-controls="flush-collapseOne">
+                    Update Profile
+                </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        {% render_field form.user_name class="form-control w-75 mb-4" placeholder="Name" %}
+                        {% render_field form.email class="form-control w-75 mb-4" placeholder="Email" %}
+                        {% render_field form.location class="form-control w-75 mb-4" placeholder="Location" %}
+                        {% render_field form.user_social_media class="form-control w-75 mb-4" placeholder="Social Media"%}
+                        {% render_field form.user_image class="form-control w-75 mb-4" %}
+                        {% render_field form.bio class="form-control w-75 mb-4" placeholder="User Bio" %}
+                        <input class="btn btn-primary w-25" type="submit" value="Save changes">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,93 @@
+<!-- HTML structure for handling the recipe comment -->
+{% load widget_tweaks %}
+<div id="messages" class="container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <h4 class="interactive-color mb-3">User Comments:</h4>
+            <div class="row">
+                <div class="col-md-6 comments">
+                    {% for comment in approved_comments %}
+                    <div>
+                        <div class="d-flex align-items-center">
+                            {% if comment.user.userprofile.user_image %}
+                            <a class="nav-link" href="{% url 'public_profile' comment.user.username %}"><img class="mx-auto rounded-circle user-image"
+                                    src="{{ comment.user.userprofile.user_image.url }}" alt="User Profile Image"></a>
+                            {% else %}
+                            <a class="nav-link" href="{% url 'public_profile' comment.user.username %}"><img class="mx-auto rounded-circle user-image"
+                                    src="../../../media/images/large/support/user-default-image-large-removebg-preview.png"
+                                    alt="Default Profile Image"></a>
+                            {% endif %}
+                            <strong class="user-name">{{ comment.user.username|slice:'10' }}</strong>
+
+                        </div>
+                        <div class="d-flex">
+                            <i class="fas fa-quote-left interactive-color"></i>
+                            <h5 class="ml-2">{{ comment.comment_title|safe }}</h5>
+                        </div>
+                        <p>{{ comment.comment|safe }}</p>
+                        <div class="d-flex">
+                            <i class="interactive-color fas fa-clock mt-1"></i>
+                            <small class="ml-2 mt-1">{{ comment.created_at | timesince }}</small>
+                        </div>
+                        {% include "components/delete-edit-comment.html" %}
+                        <hr class="under-line-grey">
+                    </div>
+                    {% empty %}
+                    <p class="text-left">No comments yet for <span class="interactive-color">{{ recipe.title }}</span>. Be the first to comment on this recipe.</p>
+                    {% endfor %}
+                </div>
+                <div class="col-md-6">
+                    {% if user.is_authenticated %}
+                    <div class="text-right">
+                        <button type="button"class="button-btn transition-3 border-1 p-2" data-toggle="modal" data-target="#CommentModal">
+                             Add a Comment <i class="fa-solid fa-comment interactive-color"></i>
+                        </button>
+                    </div>
+                    <!-- Modal Structure -->
+                    <div class="modal fade" id="CommentModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title interactive-color" id="exampleModalLongTitle">Add Comement:
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true" class="interactive-color"><i class="fas fa-times"></i></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{% url 'add_comment' recipe.pk %}" method="post">
+                                        {% csrf_token %}
+                                        {{ form.non_field_errors }}
+                                        <div class="form-group mb-3">
+                                            {% render_field form.comment_title class="form-control w-100" placeholder="Comment Title" attr="required" %}
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            {% render_field form.comment class="form-control w-100" placeholder="Add Comment" attr="required" %}
+                                        </div>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-primary">Add Comment</button>
+                                            <button type="button" class="btn btn-secondary w-25 ml-1"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="text-right">
+                    <p class="paragraph">You need to 
+                        <a href="{% url 'login' %}"
+                            class="bold interactive-color transition-3">
+                            log in
+                        </a> to add comment.
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+</div>

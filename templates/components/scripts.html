@@ -1,0 +1,23 @@
+<!-- HTML structure for handling the website JS scripts -->
+{% load static %}
+<!-- JQUERY -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- BOOTSTRAP JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<!-- jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- MY JS -->
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/owl_carousel.js' %}"></script>
+
+<script>
+    // Function to remove the alert after 5 seconds
+    setTimeout(function () {
+        var alertContainer = document.getElementById('alert-container');
+        if (alertContainer) {
+            alertContainer.remove();
+        }
+    }, 5000);
+</script>

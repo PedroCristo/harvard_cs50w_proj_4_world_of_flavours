@@ -1,0 +1,58 @@
+<!-- HTML structure for handling the like / unlike recipes -->
+{% if user.is_authenticated %}
+<button class="w-25 border-0 text-left ml-1" onclick="toggleLike({{ recipe.id }})" data-recipe-id="{{ recipe.id }}">
+    {% if user.is_authenticated %}
+    {% if user in recipe.likes.all %}
+    <i class="fa-regular fa-thumbs-down"></i>
+    {% else %}
+    <i class="fa-regular fa-thumbs-up interactive-color"></i>
+    {% endif %}
+    {% else %}
+    <div class="text-left">
+        <p class="paragraph">
+            <a href="{% url 'login' %}" class="bold interactive-color transition-3">
+                Log in</a> to like this recipe.
+        </p>
+    </div>
+    {% endif %}
+</button>
+<br>
+{% endif %}
+
+<script>
+    // Function to toggle the like button
+    function toggleLike(recipeId) {
+        fetch(`/like/${recipeId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ recipe_id: recipeId })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Update like button text based on is_liked
+                const likeButton = document.querySelector(`button[data-recipe-id="${recipeId}"]`);
+                if (likeButton) {
+                    likeButton.innerHTML = data.is_liked ?
+                        '<i class="fa-regular fa-thumbs-down"></i>' :
+                        '<i class="fa-regular fa-thumbs-up interactive-color"></i>';
+                }
+
+                // Update like count on the page
+                const likeCountElements = document.querySelectorAll('.like-count');
+                likeCountElements.forEach(likeCountElement => {
+                    if (likeCountElement) {
+                        likeCountElement.innerText = data.likes_count;
+                    }
+                });
+            })
+            .catch(error => console.error('Error toggling like:', error));
+    }
+</script>

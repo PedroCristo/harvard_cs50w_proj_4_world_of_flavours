@@ -1,0 +1,52 @@
+<!-- HTML structure for handling the filter recipes form -->
+    <div class="accordion accordion-flush container" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header text-left" id="flush-headingOne">
+             
+            </h2>
+            <div id="flush-collapseOne{{ recepi.id }}" class="accordion-collapse collapse"
+                aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <form method="POST" action="{% url 'all_recipes' %}">
+                        {% csrf_token %}
+                        <div class="form-select d-flex justify-content-end align-items-center">
+                            <div class="mr-3">
+                                <select name="main_category" id="main_category" class="form-control">
+                                    <option class="p-3" value="">Main Category</option>
+                                    {% for main_category in main_categories %}
+                                    <option value="{{ main_category.id }}">
+                                        {{ main_category }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mr-3">
+                                <select name="origin_category" id="origin_category" class="form-control">
+                                    <option class="p-3" value="">Origin Category</option>
+                                    {% for origin_category in origin_categories %}
+                                    <option value="{{ origin_category.id }}">
+                                        {{ origin_category }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mr-3">
+                                <select name="difficulty_level" id="difficulty_level" class="form-control">
+                                    <option value="">Difficulty Level</option>
+                                    {% for level in difficulty_levels %}
+                                    <option value="{{ level.id }}">
+                                        {{ level }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button class="button-btn transition-3 border-1 p-2" type="submit">
+                                <i class="fa-solid fa-magnifying-glass interactive-color"></i>
+                                Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

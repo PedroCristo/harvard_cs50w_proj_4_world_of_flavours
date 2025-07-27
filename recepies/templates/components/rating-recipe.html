@@ -1,0 +1,42 @@
+<!-- HTML structure for handling the rating recipe -->
+{% if user.is_authenticated %}
+{% if not has_rated %}
+<button type="button" class="button-btn transition-3 p-2 w-25" data-toggle="modal" data-target="#rateRecipeModal{{ recipe.id }}">
+    Rate this Recipe <i class="fa-solid fa-gavel interactive-color"></i>
+</button>
+
+<!-- Modal Structure -->
+<div class="modal fade" id="rateRecipeModal{{ recipe.id }}" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title interactive-color" id="exampleModalLongTitle">Rate Recipe</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="interactive-color"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'rate_recipe' recipe.pk %}">
+                    {% csrf_token %}
+                    <div class="form-group mb-3 text-left">
+                        <label for="{{ rating_form.rating.id_for_label }}">Rating:</label>
+                        <div class="flex">
+                            {{ rating_form.rating }}
+                        </div>
+                        <div class="text-right">
+                            <button class="btn btn-primary mt-3" type="submit">Submit Rating</button>
+                            <button type="button" class="btn btn-secondary mt-3" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<p>You have already rated this recipe.</p>
+{% endif %}
+{% else %}
+<p><a class="interactive-color transition-3" href="{% url 'login' %}">Log in</a> to rate this recipe.</p>
+{% endif %}

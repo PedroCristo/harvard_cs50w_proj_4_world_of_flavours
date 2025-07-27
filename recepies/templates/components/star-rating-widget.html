@@ -1,0 +1,24 @@
+<!-- HTML structure for handling the star rating widget -->
+{% for group, options, index in widget.optgroups %}
+    {% for option in options %}
+        <div class="form-check form-check-inline">
+            <input
+                class="form-check-input visually-hidden"
+                type="radio"
+                id="{{ option.id_for_label }}"
+                name="{{ widget.name }}"
+                value="{{ option.value }}"
+                {% if option.checked %}checked{% endif %}
+            >
+            <label class="form-check-label" for="{{ option.id_for_label }}">
+                {% if option.value|add:0 <= widget.value %}
+                    <i class="fa-solid fa-star interactive-color"></i>
+                {% else %}
+                    <i class="fa-regular fa-star interactive-color"></i>
+                {% endif %}
+                {{ option.label }}
+            </label>
+        </div>
+    {% endfor %}
+{% endfor %}
+

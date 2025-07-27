@@ -1,0 +1,21 @@
+<!-- User Register page -->
+{% extends "layout.html" %}
+{% load widget_tweaks %}
+
+{% block body %}
+<div id="accounts" class="container mx-auto mt-5">
+    <h2 class="mb-5">Register</h2>
+    <div class="mx-auto">
+        <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% render_field form.username class="form-control w-75 mb-4" placeholder="Username" %}
+            {% render_field form.email class="form-control w-75 mb-4" placeholder="Email" %}
+            {% render_field form.password class="form-control w-75 mb-4" placeholder="Password" %}
+            {% render_field form.password_confirm  class="form-control w-75 mb-4" placeholder="Confirm Password" %}
+            <input class="btn btn-primary w-25" type="submit" value="Register">
+        </form>
+        <p class="mt-4">Already have an account? <a class="interactive-color font-weight-bold" href="{% url 'login' %}">Log In here.</a></p>
+    </div>
+</div>
+{% endblock %}

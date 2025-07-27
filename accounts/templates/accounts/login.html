@@ -1,0 +1,17 @@
+<!-- User Login Page -->
+{% extends "layout.html" %}
+{% load widget_tweaks %}
+
+{% block body %}
+<div id="accounts" class="container mx-auto mt-5">
+    <h2 class="mb-5">Login</h2>
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% render_field form.username class="form-control w-50 mb-4" placeholder="Username" %}
+        {% render_field form.password class="form-control w-50 mb-4" placeholder="Password" %}
+        <input class="btn btn-primary w-25" type="submit" value="Login">
+    </form>
+    <p class="mt-4"> Don't have an account? <a class="interactive-color font-weight-bold" href="{% url 'register' %}">Register here.</a></p>
+</div>
+{% endblock %}

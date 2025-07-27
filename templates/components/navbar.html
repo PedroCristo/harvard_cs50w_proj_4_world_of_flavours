@@ -1,0 +1,71 @@
+<!-- HTML structure for handling the navigation bar -->
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light transition-3 ">
+    <a href="{% url 'home_page' %}" aria-label="Landing Page"><span
+            class="logo interactive-color Kaushan-title transition-3">World of
+            Flavors</span></a>
+    {% if messages %}
+    {% for message in messages %}
+    <div id="alert-container"
+        class="alert w-50 text-center mt-4 {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars interactive-color"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="nav ml-auto mt-1">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Intro</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home_page' %}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'all_recipes' %}">All Recipes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'about_page' %}">About</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'my_favourites' %}">My Favourits</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'add_recipe_page' %}">Add Recipe</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Log In</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}">Register</a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+                {% if user.is_authenticated %}
+                <a class="nav-link" href="{% url 'user_profile' %}"><strong>
+                {{ user.username|slice:'10' }}</strong></a>
+                {% else %}
+                <p class="nav-link nav-link-disabled">Not signed in</p>
+                {% endif %}
+            </li>
+            <li class="nav-item">
+                {% if user_image %}
+                <a class="nav-link" href="{% url 'user_profile' %}"><img class="mx-auto rounded-circle user-image"
+                        src="{{ user_image }}" alt="Profile Image"></a>
+                {% else %}
+                <a class="nav-link" href="{% url 'user_profile' %}"><img class="mx-auto rounded-circle user-image"
+                        src="../../../media/images/large/support/user-default-image-large-removebg-preview.png"
+                        alt="Default Profile Image"></a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</nav>

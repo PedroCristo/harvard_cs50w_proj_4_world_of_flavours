@@ -1,0 +1,89 @@
+<!-- HTML structure for handling the recipes card -->
+<div class="container">
+    {% if home_page %}
+        <h2 class="title interactive-color mb-5">Popular Recipes</h2>
+    {% elif my_favourites_page %}
+        <h2 class="title interactive-color mb-5">My Favourite Recipes</h2>
+    {% else %}
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="title interactive-color mb-5">All Recipes</h2>
+            <button class="accordion-button collapsed border-0 btn" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseOne{{ comment.id }}" aria-expanded="false" aria-controls="flush-collapseOne">
+                <h4 class="interactive-color search-icon">
+                    <i class="fa-solid fa-magnifying-glass interactive-color"></i>
+                </h4>
+            </button>
+        </div>
+    {% endif %}
+    {% if recipes|length == 0 and my_favourites_page %}
+        <div class="alert-box d-flex align-items-center justify-content-center">
+            <h2 class="mb-5 mt-5 p-3">You have not liked any recipes yet.</h2>
+        </div>
+    {% endif %}
+    <div class="row">
+        {% for recipe in recipes %}
+            <div class="col-6 col-lg-4 mb-3">
+                <a href="{% url 'recipe_page' pk=recipe.pk %}">
+                    <div class="card transition-3">
+                        <div class="image-container">
+                            <div class="overlay"></div>
+                            {% if recipe.small_image and recipe.small_image.url %}
+                                <img class="img-fluid w-100" src="{{ recipe.small_image.url }}" alt="{{ recipe.title }}">
+                            {% else %}
+                                <img class="img-fluid w-100"
+                                    src="../../../media/images/small/support/image_not_available_small.jpg"
+                                    alt="{{ recipe.title }}">
+                            {% endif %}
+                            <div class="card-info">
+                                <div class="d-flex">
+                                    <i class="interactive-color fa-solid fa-earth-americas mt-1"></i>
+                                    <p class="ml-2">{{ recipe.origin_category }}</p>
+                                </div>
+                                <div class="d-flex">
+                                    <i class="interactive-color fa-solid fa-paper-plane mt-1"></i>
+                                    <p class="ml-2">{{ recipe.difficulty_level }}</p>
+                                </div>
+                                <div class="d-flex">
+                                    <i class="interactive-color fa-solid fa-bowl-rice mt-1"></i>
+                                    <p class="ml-2">{{ recipe.main_category }}</p>
+                                </div>
+                                <div class="d-flex">
+                                    <i class="interactive-color fa-solid fa-clock-rotate-left mt-1"></i>
+                                    <p class="ml-2">{{ recipe.time_to_prepare }} Minutes</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="Kaushan-title interactive-color mt-3 mb-3">{{ recipe.title }}</h3>
+                            <hr class="under-line">
+                            <p>{{ recipe.sub_title }}</p>
+                            <hr>
+                            <div class="card-info-details d-flex flex-column">
+                                <div class="d-flex">
+                                    <i class="interactive-color fa-solid fa-user-pen mt-1"></i>
+                                    <p class="ml-2">{{ recipe.author }}</p>
+                                </div>
+                                <div class="d-flex">
+                                    <i class="interactive-color fa-solid fas fa-clock mt-1"></i>
+                                    <p class="ml-2">{{ recipe.timestamp|date:"F j, Y" }}</p>
+                                </div>
+                                <div class="d-flex">
+                                    <i class="interactive-color fa-regular fa-heart mt-1"></i>
+                                    <p class="ml-2 like-count" id="{{ recipe.id }}">{{ recipe.likes.count }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% empty %}
+            {% if all_recipes_page %}
+                <div class="window-alert d-flex justify-content-center align-items-center mb-5">
+                    <h2 class="text-center w-75 mx-auto mt-5">
+                        No recipes found matching your search criteria. Please try a different search.
+                    </h2>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
