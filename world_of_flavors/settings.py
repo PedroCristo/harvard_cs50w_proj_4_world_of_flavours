@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-your-secret-key-here'  # replace with your own secret key
 
-DEBUG = True  # or True for local testing
+DEBUG = False  # or True for local testing
 
 ALLOWED_HOSTS = [
     'your-app-name.onrender.com',  # your Render domain
