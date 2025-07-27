@@ -11,7 +11,7 @@ SECRET_KEY = 'django-insecure-your-secret-key-here'  # replace with your own sec
 DEBUG = False  # or True for local testing
 
 ALLOWED_HOSTS = [
-    'your-app-name.onrender.com',  # your Render domain
+    'https://harvard-cs50w-proj-4-world-of-flavours.onrender.com/',  # your Render domain
     'localhost',
     '127.0.0.1',
 ]
