@@ -1,0 +1,1 @@
+web: gunicorn world_of_flavors.wsgi:application

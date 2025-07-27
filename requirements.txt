@@ -18,3 +18,4 @@ sqlparse==0.4.3
 tzdata==2022.7
 urllib3==2.2.1
 webencodings==0.5.1
+whitenoise==6.9.0
